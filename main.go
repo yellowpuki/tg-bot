@@ -4,6 +4,7 @@ import (
 	"context"
 	"flag"
 	"log"
+	"os"
 
 	tgClient "github.com/yellowpuki/tg-bot/clients/telegram"
 	event_consumer "github.com/yellowpuki/tg-bot/consumer/event-consumer"
@@ -31,7 +32,7 @@ func main() {
 	}
 
 	eventProcessor := telegram.New(
-		tgClient.New(tgBotHost, mustToken()),
+		tgClient.New(tgBotHost, os.Getenv("TOKEN")),
 		s,
 	)
 

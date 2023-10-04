@@ -1,20 +1,11 @@
-FROM golang:alpine as builder
+FROM golang AS builder
 
-ARG TOKEN
-
-WORKDIR /src
-
-COPY go.mod ./
-COPY go.sum ./
+WORKDIR /app
+COPY . .
 
 RUN go mod download
+RUN go build -o app 
 
-COPY *.go ./
-
-RUN GOOS=linux go build -o /app -a -ldflags '-linkmode external -extldflags "-static"'
-
-FROM scratch
-COPY --from=builder /app /app
 EXPOSE 4000
 
-RUN app $TOKEN
+CMD [ "./app" ]
